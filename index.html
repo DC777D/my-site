@@ -5,235 +5,279 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Наша дружба 💙</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
-body {
-  margin: 0;
-  font-family: 'Playfair Display', serif;
-  overflow: hidden;
+    :root {
+        --accent: #74b9ff;
+    }
 
-  background: linear-gradient(-45deg, #74b9ff, #a29bfe, #81ecec, #ffeaa7);
-  background-size: 400% 400%;
-  animation: bg 12s ease infinite;
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Playfair Display', serif;
+        overflow: hidden;
+        height: 100vh;
+        background: linear-gradient(-45deg, #74b9ff, #a29bfe, #81ecec, #ffeaa7);
+        background-size: 400% 400%;
+        animation: bg 15s ease infinite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+    @keyframes bg {
+        0%   { background-position: 0% 50%; }
+        50%  { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
 
-@keyframes bg {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+    .container {
+        text-align: center;
+        width: 90%;
+        max-width: 520px;
+        z-index: 10;
+    }
 
-.container {
-  text-align: center;
-  width: 90%;
-  max-width: 500px;
-}
+    /* Поляроид */
+    .polaroid {
+        background: white;
+        padding: 18px 18px 55px;
+        border-radius: 12px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+        transform: rotate(-3deg);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-/* 📸 ПОЛАРОИД */
-.polaroid {
-  background: white;
-  padding: 15px 15px 50px;
-  border-radius: 10px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-  transform: rotate(-2deg);
-  transition: 0.5s;
-}
+    .polaroid:hover {
+        transform: rotate(1deg) scale(1.04);
+    }
 
-.polaroid:hover {
-  transform: rotate(0deg) scale(1.03);
-}
+    .polaroid img {
+        width: 100%;
+        height: 62vh;
+        object-fit: cover;
+        border-radius: 6px;
+        opacity: 0;
+        transform: scale(1.08);
+        transition: all 0.9s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
 
-.polaroid img {
-  width: 100%;
-  height: 65vh;
-  object-fit: cover;
-  border-radius: 5px;
-  opacity: 0;
-  transform: scale(1.1);
-  transition: 0.7s;
-}
+    .polaroid img.show {
+        opacity: 1;
+        transform: scale(1);
+    }
 
-.polaroid img.show {
-  opacity: 1;
-  transform: scale(1);
-}
+    .caption {
+        margin-top: 18px;
+        font-size: 19px;
+        color: #2d3436;
+        font-style: italic;
+        min-height: 1.4em;
+    }
 
-/* подпись */
-.caption {
-  margin-top: 15px;
-  font-size: 18px;
-  color: #333;
-  text-align: center;
-  font-style: italic;
-}
+    button {
+        margin-top: 25px;
+        padding: 15px 35px;
+        border: none;
+        background: white;
+        color: #2d3436;
+        font-size: 18px;
+        font-family: 'Playfair Display', serif;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        transition: all 0.3s;
+    }
 
-/* кнопка */
-button {
-  margin-top: 20px;
-  padding: 14px 28px;
-  border: none;
-  background: white;
-  color: #333;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 18px;
-}
+    button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(116, 185, 255, 0.4);
+    }
 
-/* 💥 разлетающиеся фотки */
-.floating-img {
-  position: fixed;
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 10px;
-  transform: translate(-50%, -50%);
-  animation: fly 1.5s ease forwards;
-  border: 4px solid white;
-}
+    /* Разлетающиеся фото */
+    .floating-img {
+        position: fixed;
+        width: 110px;
+        height: 110px;
+        object-fit: cover;
+        border-radius: 12px;
+        border: 5px solid white;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        z-index: 5;
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+        animation: fly 2.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
 
-@keyframes fly {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
-  }
-  to {
-    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1);
-    opacity: 1;
-  }
-}
+    @keyframes fly {
+        to {
+            opacity: 1;
+            transform: translate(var(--x), var(--y)) scale(1) rotate(var(--rot));
+        }
+    }
 
-/* письмо */
-.letter {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: 1s;
-}
+    /* Письмо */
+    .letter {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0,0,0,0.4);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 1.2s ease;
+        z-index: 100;
+    }
 
-.letter.active {
-  opacity: 1;
-  pointer-events: all;
-}
+    .letter.active {
+        opacity: 1;
+        pointer-events: all;
+    }
 
-.letter-box {
-  background: white;
-  padding: 30px;
-  border-radius: 20px;
-  text-align: center;
-  max-width: 300px;
-  transform: scale(0.5);
-  opacity: 0;
-  transition: 0.8s;
-}
+    .letter-box {
+        background: white;
+        padding: 40px 35px;
+        border-radius: 24px;
+        max-width: 340px;
+        text-align: center;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        transform: scale(0.6) translateY(40px);
+        opacity: 0;
+        transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
 
-.letter.active .letter-box {
-  transform: scale(1);
-  opacity: 1;
-}
+    .letter.active .letter-box {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+
+    .letter-box h2 {
+        font-family: 'Great Vibes', cursive;
+        font-size: 52px;
+        color: var(--accent);
+        margin: 0 0 15px 0;
+    }
+
+    .heart {
+        font-size: 28px;
+        animation: heartbeat 1.5s infinite;
+    }
+
+    @keyframes heartbeat {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.25); }
+    }
 </style>
 </head>
 
 <body>
 
 <div class="container" id="main">
-  <div class="polaroid">
-    <img id="photo" src="1.jpg">
-    <div class="caption" id="quote"></div>
-  </div>
-  <button onclick="next()">Дальше ➡️</button>
+    <div class="polaroid">
+        <img id="photo" src="1.jpg">
+        <div class="caption" id="quote"></div>
+    </div>
+    <button onclick="next()">Дальше 💙</button>
 </div>
 
+<!-- Письмо -->
 <div class="letter" id="letter">
-  <div class="letter-box">
-    <h2>💌</h2>
-    <p>Жду тебя очень сильно в Кропивницком 💙</p>
-  </div>
+    <div class="letter-box">
+        <h2>💌</h2>
+        <p style="font-size: 18px; line-height: 1.6; color: #2d3436;">
+            Жду тебя очень сильно в Кропивницком 💙<br><br>
+            <span class="heart">♥</span>
+        </p>
+    </div>
 </div>
 
 <script>
-const photos = [
-  "1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg","7.jpg"
-];
+const photos = ["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg","7.jpg"];
 
 const quotes = [
-  "Ты невероятно красивая 💙",
-  "Ты очень милая 😊",
-  "С тобой всегда легко",
-  "У тебя особенная энергия ✨",
-  "Ты просто классная",
-  "Ты делаешь дни лучше",
-  "Ты правда особенная 💫"
+    "Ты невероятно красивая 💙",
+    "Ты очень милая и нежная 😊",
+    "С тобой всегда легко и тепло",
+    "У тебя особенная, светлая энергия ✨",
+    "Ты просто классная",
+    "Ты делаешь мои дни намного лучше",
+    "Ты правда очень-очень особенная 💫"
 ];
 
 let index = 0;
 
 function show() {
-  const img = document.getElementById("photo");
-  const text = document.getElementById("quote");
+    const img = document.getElementById("photo");
+    const text = document.getElementById("quote");
 
-  img.classList.remove("show");
+    img.classList.remove("show");
 
-  setTimeout(() => {
-    img.src = photos[index];
-    text.innerText = quotes[index];
-    img.classList.add("show");
-  }, 300);
+    setTimeout(() => {
+        img.src = photos[index];
+        text.textContent = quotes[index];
+        img.classList.add("show");
+    }, 350);
 }
 
 function next() {
-  index++;
+    index++;
 
-  if (index >= photos.length) {
-    finalScene();
-    return;
-  }
+    if (index >= photos.length) {
+        finalScene();
+        return;
+    }
 
-  show();
+    show();
 }
 
 function finalScene() {
-  document.getElementById("main").style.display = "none";
+    const main = document.getElementById("main");
+    main.style.transition = "opacity 0.8s";
+    main.style.opacity = "0";
 
-  const centerX = window.innerWidth / 2;
-  const centerY = window.innerHeight / 2;
-  const distance = Math.min(window.innerWidth, window.innerHeight) / 2.5;
+    setTimeout(() => {
+        main.style.display = "none";
 
-  photos.forEach((photo, i) => {
-    const img = document.createElement("img");
-    img.src = photo;
-    img.className = "floating-img";
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const radius = Math.min(window.innerWidth, window.innerHeight) * 0.38;
 
-    img.style.left = centerX + "px";
-    img.style.top = centerY + "px";
+        photos.forEach((photo, i) => {
+            const img = document.createElement("img");
+            img.src = photo;
+            img.className = "floating-img";
 
-    const angle = (i / photos.length) * 2 * Math.PI;
-    const x = Math.cos(angle) * distance;
-    const y = Math.sin(angle) * distance;
+            // начальная позиция — центр
+            img.style.left = centerX + "px";
+            img.style.top = centerY + "px";
 
-    img.style.setProperty("--x", x + "px");
-    img.style.setProperty("--y", y + "px");
+            const angle = (i / photos.length) * Math.PI * 2 + (Math.random() * 0.4 - 0.2);
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius * 0.85; // чуть сплющиваем круг
 
-    document.body.appendChild(img);
-  });
+            img.style.setProperty("--x", (x) + "px");
+            img.style.setProperty("--y", (y) + "px");
+            img.style.setProperty("--rot", (Math.random() * 40 - 20) + "deg");
 
-  setTimeout(() => {
-    document.getElementById("letter").classList.add("active");
-  }, 1500);
+            // небольшая задержка для красивого старта
+            img.style.animationDelay = (i * 80) + "ms";
+
+            document.body.appendChild(img);
+        });
+
+        // Показываем письмо
+        setTimeout(() => {
+            document.getElementById("letter").classList.add("active");
+        }, 1600);
+
+    }, 700);
 }
 
+// Запуск первой фотографии
 show();
 </script>
 
