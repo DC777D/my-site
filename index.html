@@ -35,38 +35,42 @@ body {
   max-width: 500px;
 }
 
-/* фото */
-img {
-  width: 100%;
-  height: 75vh;
-  object-fit: cover;
-  border-radius: 25px;
-  box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+/* 📸 ПОЛАРОИД */
+.polaroid {
+  background: white;
+  padding: 15px 15px 50px;
+  border-radius: 10px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  transform: rotate(-2deg);
+  transition: 0.5s;
+}
 
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.03);
+}
+
+.polaroid img {
+  width: 100%;
+  height: 65vh;
+  object-fit: cover;
+  border-radius: 5px;
   opacity: 0;
   transform: scale(1.1);
   transition: 0.7s;
 }
 
-img.show {
+.polaroid img.show {
   opacity: 1;
   transform: scale(1);
 }
 
-/* текст */
-.quote {
-  margin-top: 20px;
-  font-size: 24px;
-  color: white;
-
-  opacity: 0;
-  transform: translateY(20px);
-  transition: 0.7s;
-}
-
-.quote.show {
-  opacity: 1;
-  transform: translateY(0);
+/* подпись */
+.caption {
+  margin-top: 15px;
+  font-size: 18px;
+  color: #333;
+  text-align: center;
+  font-style: italic;
 }
 
 /* кнопка */
@@ -79,11 +83,6 @@ button {
   border-radius: 25px;
   cursor: pointer;
   font-size: 18px;
-  transition: 0.3s;
-}
-
-button:hover {
-  transform: scale(1.1) rotate(-2deg);
 }
 
 /* 💥 разлетающиеся фотки */
@@ -92,9 +91,10 @@ button:hover {
   width: 100px;
   height: 100px;
   object-fit: cover;
-  border-radius: 15px;
+  border-radius: 10px;
   transform: translate(-50%, -50%);
   animation: fly 1.5s ease forwards;
+  border: 4px solid white;
 }
 
 @keyframes fly {
@@ -115,11 +115,9 @@ button:hover {
   left: 0;
   width: 100%;
   height: 100%;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   opacity: 0;
   pointer-events: none;
   transition: 1s;
@@ -136,7 +134,6 @@ button:hover {
   border-radius: 20px;
   text-align: center;
   max-width: 300px;
-
   transform: scale(0.5);
   opacity: 0;
   transition: 0.8s;
@@ -146,40 +143,16 @@ button:hover {
   transform: scale(1);
   opacity: 1;
 }
-
-/* 📱 адаптация */
-@media (max-width: 600px) {
-
-  img {
-    height: 60vh;
-  }
-
-  .quote {
-    font-size: 20px;
-    padding: 0 10px;
-  }
-
-  button {
-    width: 80%;
-  }
-
-  .floating-img {
-    width: 80px;
-    height: 80px;
-  }
-
-  .letter-box {
-    width: 85%;
-  }
-}
 </style>
 </head>
 
 <body>
 
 <div class="container" id="main">
-  <img id="photo" src="1.jpg">
-  <div class="quote" id="quote"></div>
+  <div class="polaroid">
+    <img id="photo" src="1.jpg">
+    <div class="caption" id="quote"></div>
+  </div>
   <button onclick="next()">Дальше ➡️</button>
 </div>
 
@@ -212,14 +185,11 @@ function show() {
   const text = document.getElementById("quote");
 
   img.classList.remove("show");
-  text.classList.remove("show");
 
   setTimeout(() => {
     img.src = photos[index];
     text.innerText = quotes[index];
-
     img.classList.add("show");
-    text.classList.add("show");
   }, 300);
 }
 
@@ -250,7 +220,6 @@ function finalScene() {
     img.style.top = centerY + "px";
 
     const angle = (i / photos.length) * 2 * Math.PI;
-
     const x = Math.cos(angle) * distance;
     const y = Math.sin(angle) * distance;
 
