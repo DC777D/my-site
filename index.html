@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Наша дружба 💙</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  overflow: hidden;
+
+  background: linear-gradient(-45deg, #74b9ff, #a29bfe, #81ecec, #ffeaa7);
+  background-size: 400% 400%;
+  animation: bg 12s ease infinite;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+@keyframes bg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.container {
+  text-align: center;
+  width: 90%;
+  max-width: 500px;
+}
+
+/* фото */
+img {
+  width: 100%;
+  height: 75vh;
+  object-fit: cover;
+  border-radius: 25px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+
+  opacity: 0;
+  transform: scale(1.1);
+  transition: 0.7s;
+}
+
+img.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* текст */
+.quote {
+  margin-top: 20px;
+  font-size: 24px;
+  color: white;
+
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 0.7s;
+}
+
+.quote.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* кнопка */
+button {
+  margin-top: 20px;
+  padding: 14px 28px;
+  border: none;
+  background: white;
+  color: #333;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.1) rotate(-2deg);
+}
+
+/* 💥 разлетающиеся фотки */
+.floating-img {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 15px;
+  transform: translate(-50%, -50%);
+  animation: fly 1.5s ease forwards;
+}
+
+@keyframes fly {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  to {
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1);
+    opacity: 1;
+  }
+}
+
+/* письмо */
+.letter {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: 1s;
+}
+
+.letter.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.letter-box {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 300px;
+
+  transform: scale(0.5);
+  opacity: 0;
+  transition: 0.8s;
+}
+
+.letter.active .letter-box {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* 📱 адаптация */
+@media (max-width: 600px) {
+
+  img {
+    height: 60vh;
+  }
+
+  .quote {
+    font-size: 20px;
+    padding: 0 10px;
+  }
+
+  button {
+    width: 80%;
+  }
+
+  .floating-img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .letter-box {
+    width: 85%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="main">
+  <img id="photo" src="1.jpg">
+  <div class="quote" id="quote"></div>
+  <button onclick="next()">Дальше ➡️</button>
+</div>
+
+<div class="letter" id="letter">
+  <div class="letter-box">
+    <h2>💌</h2>
+    <p>Жду тебя очень сильно в Кропивницком 💙</p>
+  </div>
+</div>
+
+<script>
+const photos = [
+  "1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg","7.jpg"
+];
+
+const quotes = [
+  "Ты невероятно красивая 💙",
+  "Ты очень милая 😊",
+  "С тобой всегда легко",
+  "У тебя особенная энергия ✨",
+  "Ты просто классная",
+  "Ты делаешь дни лучше",
+  "Ты правда особенная 💫"
+];
+
+let index = 0;
+
+function show() {
+  const img = document.getElementById("photo");
+  const text = document.getElementById("quote");
+
+  img.classList.remove("show");
+  text.classList.remove("show");
+
+  setTimeout(() => {
+    img.src = photos[index];
+    text.innerText = quotes[index];
+
+    img.classList.add("show");
+    text.classList.add("show");
+  }, 300);
+}
+
+function next() {
+  index++;
+
+  if (index >= photos.length) {
+    finalScene();
+    return;
+  }
+
+  show();
+}
+
+function finalScene() {
+  document.getElementById("main").style.display = "none";
+
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+  const distance = Math.min(window.innerWidth, window.innerHeight) / 2.5;
+
+  photos.forEach((photo, i) => {
+    const img = document.createElement("img");
+    img.src = photo;
+    img.className = "floating-img";
+
+    img.style.left = centerX + "px";
+    img.style.top = centerY + "px";
+
+    const angle = (i / photos.length) * 2 * Math.PI;
+
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance;
+
+    img.style.setProperty("--x", x + "px");
+    img.style.setProperty("--y", y + "px");
+
+    document.body.appendChild(img);
+  });
+
+  setTimeout(() => {
+    document.getElementById("letter").classList.add("active");
+  }, 1500);
+}
+
+show();
+</script>
+
+</body>
+</html>
